@@ -1,0 +1,9 @@
+config.py
+users.db
+Playlists/*
+brawlai.py
+notifications.py
+tester.py
+monsters/*
+Python/*
+__pycache__/*
