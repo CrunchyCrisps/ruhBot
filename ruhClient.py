@@ -16,7 +16,7 @@ from decimal import Decimal
 from utility import sliceDetails, multiplyString, checkRuneList, endingChecker, getMonsterInfo
 
 client = discord.Client()
-conn = sqlite3.connect('C:\\Users\\Raffael\\Documents\\ruhBot\\users.db')
+conn = sqlite3.connect('/home/pi/Documents/ruhbot/users.db')
 c = conn.cursor()
 
 command_list = ("```Markdown\nGeneral\n-------\n* hello\n* joined\n* created\n* credits\n* roll\n* messages [amount]\n* help [command]\n* eliminate [options]\n* gamble [amount]\n* ? [question]\n\n"
@@ -248,12 +248,13 @@ async def on_message(message):
     # streamelements stuff
     elif content.startswith('!points'):
         msg = content.split()
-        channel = msg[1]
+        twitch_channel = msg[1]
         user = msg[2]
-        url = 'https://api.streamelements.com/kappa/v1/points/{}/{}'.format(channel,user)
+        url = 'https://api.streamelements.com/kappa/v2/points/{}/{}'.format(twitch_channel,user)
         r = requests.get(url, headers={'Authorization' : '{}'.format(config.JWT_TOKEN)})
         response = r.json()
         if 'statusCode' in response:
+            print(response)
             result = '{} was not found. Try again.'.format(user)
         else:
             points = response['points']
@@ -264,14 +265,15 @@ async def on_message(message):
     elif content.startswith('!top'):
         msg = content.split()
         amount = int(msg[1])
-        channel = msg[2]
+        twitch_channel = msg[2]
         if amount > 20:
             result = 'Please enter a number <= 20 and try again.'
         else:
-            url = 'https://api.streamelements.com/kappa/v1/points/{}/top/{}'.format(channel,amount)
+            url = 'https://api.streamelements.com/kappa/v2/points/{}/top/{}'.format(twitch_channel,amount)
             r = requests.get(url, headers={'Authorization' : '{}'.format(config.JWT_TOKEN)})
             response = r.json()
             users = []
+            print(response)
             for x in range(0,amount):
                 u_name = response['users'][x]['username']
                 u_points = response['users'][x]['points']
@@ -301,21 +303,27 @@ async def on_message(message):
         monster_formatted = monster.title()
         result = ''
         if any(x in monster_formatted for x in ['Wind','Water','Fire','Dark','Light']):
-            tmp_path = 'C:\\Users\\Raffael\\Documents\\ruhBot\\monsters\\{}.json'.format(monster_formatted)
+            tmp_path = '/home/pi/Documents/ruhbot/monsters/{}.json'.format(monster_formatted)
             if os.path.isfile(tmp_path):
                 with open(tmp_path) as data_file_tmp:
                     data_tmp = json.load(data_file_tmp)
                 monster_formatted = data_tmp['awakens_to']['name']
 
-        path = 'C:\\Users\\Raffael\\Documents\\ruhBot\\monsters\\{}.json'.format(monster_formatted)
+        path = '/home/pi/Documents/ruhbot/monsters/{}.json'.format(monster_formatted)
         if os.path.isfile(path):
-            result = getMonsterInfo(monster_formatted,path)
+            result = getMonsterInfo(monster,path)
         else:
             found = False
-            mon_dir = 'C:\\Users\\Raffael\\Documents\\ruhBot\\monsters'
+            mon_dir = '/home/pi/Documents/ruhbot/monsters'
             for file in os.listdir(mon_dir):
                 if monster_formatted.lower() in file.lower() and found is False:
-                    result = getMonsterInfo(file[:-5],'{}\\{}'.format(mon_dir,file))
+                    if any(x in monster_formatted for x in ['Wind','Water','Fire','Dark','Light']):
+                        with open('/home/pi/Documents/ruhbot/monsters/{}'.format(file)) as temp_file:
+                            temp_data = json.load(temp_file)
+                        awakened_name = temp_data['awakens_to']['name']
+                        result = getMonsterInfo(awakened_name,'{}/{}.json'.format(mon_dir,awakened_name))
+                    else:
+                        result = getMonsterInfo(file[:-5],'{}/{}'.format(mon_dir,file))
                     found = True
             if result == '':
                 result = 'Monster not found. Try again.'
@@ -333,7 +341,7 @@ async def on_message(message):
             swarfarm_id = result[1]
             monster_name = content[4:]
             monster_formatted = monster_name.title()
-            path = 'C:\\Users\\Raffael\\Documents\\ruhBot\\monsters\\{}.json'.format(monster_formatted)
+            path = '/home/pi/Documents/ruhbot/monsters/{}.json'.format(monster_formatted)
 
             if os.path.isfile(path):
                 await client.send_message(channel,
@@ -422,7 +430,7 @@ async def on_message(message):
         skill = sliceDetails(content)[1]
         skill_nr = int(skill)-1
 
-        path = 'C:\\Users\\Raffael\\Documents\\ruhBot\\monsters\\{}.json'.format(monster)
+        path = '/home/pi/Documents/ruhbot/monsters/{}.json'.format(monster)
         if os.path.isfile(path):
             # load file
             with open(path) as data_file:

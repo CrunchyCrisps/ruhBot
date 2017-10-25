@@ -136,12 +136,5 @@ def getMonsterInfo(monster,path):
             awaken_from = ''
         else:
             awaken_from = ' {}'.format(data['awakens_from']['name'])
-        result = '**{0}** ({1}{2}) {3}\n{4}\nLeader Skill: {5}\nAwakening Bonus: {6}\n{7}'.format(name,
-                                                                                                                element,
-                                                                                                                awaken_from,
-                                                                                                                star_string,
-                                                                                                                stats,
-                                                                                                                leader,
-                                                                                                                awaken,
-                                                                                                                skill_result)
+        result = '**{0}** ({1}{2}) {3}\n{4}\nLeader Skill: {5}\nAwakening Bonus: {6}\n{7}'.format(name,element,awaken_from,star_string,stats,leader,awaken,skill_result)
         return result

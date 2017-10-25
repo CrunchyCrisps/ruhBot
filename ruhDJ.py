@@ -65,7 +65,7 @@ def updateIdleSongs(title):
 
 def chooseRandomFileFromDir(dir):
     song_name_ext = random.choice(os.listdir(dir))
-    song_path = '{}\\{}'.format(dir,song_name_ext)
+    song_path = '{}/{}'.format(dir,song_name_ext)
     song_name = song_name_ext[:-4]
     return [song_name,song_path]
 

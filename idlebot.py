@@ -10,5 +10,12 @@ def main():
     s.send("NICK {}\r\n".format('ruhfzy').encode('utf-8'))
     s.send("JOIN #{}\r\n".format('thearchr').encode('utf-8'))
 
+    stalking = False
+    
+    while True:    
+        if not stalking:
+            print('Now stalking Archer.')
+            stalking = True
+
 if __name__ == '__main__':
     main()
