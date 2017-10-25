@@ -300,7 +300,7 @@ async def on_message(message):
         monster = content[5:]
         monster_formatted = monster.title()
         result = ''
-        if 'Wind ' in monster_formatted or 'Fire ' in monster_formatted or 'Water ' in monster_formatted or 'Dark ' in monster_formatted or 'Light ' in monster_formatted:
+        if any(x in monster_formatted for x in ['Wind','Water','Fire','Dark','Light']):
             tmp_path = 'C:\\Users\\Raffael\\Documents\\ruhBot\\monsters\\{}.json'.format(monster_formatted)
             if os.path.isfile(tmp_path):
                 with open(tmp_path) as data_file_tmp:
@@ -315,7 +315,12 @@ async def on_message(message):
             mon_dir = 'C:\\Users\\Raffael\\Documents\\ruhBot\\monsters'
             for file in os.listdir(mon_dir):
                 if monster.lower() in file.lower() and found is False:
-                    result = getMonsterInfo(file[:-5],'{}\\{}'.format(mon_dir,file))
+                    if any(x in monster_formatted for x in ['Wind', 'Water', 'Fire', 'Dark', 'Light']):
+                        data_tmp = json.load(file)
+                        awakened_name = data_tmp['awakens_to']['name']
+                        result = getMonsterInfo(awakened_name,'{}\\{}.json'.format(mon_dir,awakened_name))
+                    else:
+                        result = getMonsterInfo(file[:-5], '{}\\{}'.format(mon_dir, file))
                     found = True
             if result == '':
                 result = 'Monster not found. Try again.'
