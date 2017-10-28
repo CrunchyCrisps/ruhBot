@@ -21,8 +21,8 @@ def main():
             message = chat_message.sub('', response)
             m_c = message.strip()
 
-            if m_c == 'FeelsBadMan':
-                utility.chat(s, 'FeelsBadMan @{}'.format(username))
+            if m_c.__contains__('LUL'):
+                utility.chat(s, 'LUL'.format(username))
 
     #stalking = False
     
