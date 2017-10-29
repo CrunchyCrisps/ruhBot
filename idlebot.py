@@ -24,14 +24,15 @@ def main():
             message = chat_message.sub('', response)
             m_c = message.strip()
 
-            if m_c == 'LUL' and username != 'ruhfzy' and round(time.time() - last_lul) >= 31:
-                last_lul = time.time()
+            #if m_c == 'LUL' and username != 'ruhfzy' and round(time.time() - last_lul) >= 31:
+                #last_lul = time.time()
                 response_amount += 1
-                print('Total Amount of Responses: {}'.format(response_amount))
-                print('Responding to {}'.format(username))
+                print('Amount of LULs: {}'.format(response_amount))
+                #print('Total Amount of Responses: {}'.format(response_amount))
+                #print('Responding to {}'.format(username))
                 print('-------------------')
-                sleep(1)
-                utility.chat(s, 'LUL')
+                #sleep(1)
+                #utility.chat(s, 'LUL')
 
     #stalking = False
     
