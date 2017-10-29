@@ -1,7 +1,9 @@
 import config
 import utility
 import socket
+import time
 import re
+from time import sleep
 
 def main():
     s = socket.socket()
@@ -11,7 +13,8 @@ def main():
     s.send("JOIN #{}\r\n".format(config.CHANNEL).encode('utf-8'))
 
     chat_message = re.compile(r'^:\w+!\w+@\w+.tmi\.twitch\.tv PRIVMSG #\w+ :')
-
+    response_amount = 0
+    last_lul = time.time()
     while True:
         response = s.recv(1024).decode('utf-8')
         if response == 'PING :tmi.twitch.tv\r\n':
@@ -21,8 +24,14 @@ def main():
             message = chat_message.sub('', response)
             m_c = message.strip()
 
-            if m_c.__contains__('LUL'):
-                utility.chat(s, 'LUL'.format(username))
+            if m_c == 'LUL' and username != 'ruhfzy' and round(time.time() - last_lul) >= 31:
+                last_lul = time.time()
+                response_amount += 1
+                print('Total Amount of Responses: {}'.format(response_amount))
+                print('Responding to {}'.format(username))
+                print('-------------------')
+                sleep(1)
+                utility.chat(s, 'LUL')
 
     #stalking = False
     
