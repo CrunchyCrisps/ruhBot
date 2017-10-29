@@ -13,7 +13,7 @@ from time import sleep
 def main():
     s = socket.socket()
     s.connect((config.HOST, config.PORT))
-    s.send("PASS {}\r\n".format(config.BOT_OAUTH_TOKEN).encode('utf-8'))
+    s.send("PASS {}\r\n".format(config.RUHFZY_OAUTH_TOKEN).encode('utf-8'))
     s.send("NICK {}\r\n".format(config.NICK).encode('utf-8'))
     s.send("JOIN #{}\r\n".format(config.CHANNEL).encode('utf-8'))
 
