@@ -25,6 +25,7 @@ def main():
             m_c = message.strip()
 
             #if m_c == 'LUL' and username != 'ruhfzy' and round(time.time() - last_lul) >= 31:
+            if m_c == 'LUL':
                 #last_lul = time.time()
                 response_amount += 1
                 print('Amount of LULs: {}'.format(response_amount))
