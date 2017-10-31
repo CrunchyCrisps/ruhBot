@@ -13,8 +13,8 @@ def main():
     s.send("JOIN #{}\r\n".format(config.CHANNEL).encode('utf-8'))
 
     chat_message = re.compile(r'^:\w+!\w+@\w+.tmi\.twitch\.tv PRIVMSG #\w+ :')
-    response_amount = 0
-    last_lul = time.time()
+    lul_amount = 0
+
     while True:
         response = s.recv(1024).decode('utf-8')
         if response == 'PING :tmi.twitch.tv\r\n':
@@ -24,23 +24,12 @@ def main():
             message = chat_message.sub('', response)
             m_c = message.strip()
 
-            #if m_c == 'LUL' and username != 'ruhfzy' and round(time.time() - last_lul) >= 31:
-            if m_c == 'LUL':
-                #last_lul = time.time()
-                response_amount += 1
-                print('Amount of LULs: {}'.format(response_amount))
-                #print('Total Amount of Responses: {}'.format(response_amount))
-                #print('Responding to {}'.format(username))
-                print('-------------------')
-                #sleep(1)
-                #utility.chat(s, 'LUL')
-
-    #stalking = False
-    
-    #while True:
-    #    if not stalking:
-    #        print('Now stalking {}.'.format(config.CHANNEL))
-    #        stalking = True
+            if m_c.contains('LUL'):
+                lul_amount += 1
+                if lul_amount % 5 == 0:
+                    print('Amount of LULs: {}'.format(response_amount))
+                    print('Last LUL by {}'.format(username))
+                    print('-------------------')
 
 if __name__ == '__main__':
     main()
