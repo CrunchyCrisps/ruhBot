@@ -24,7 +24,7 @@ def main():
             message = chat_message.sub('', response)
             m_c = message.strip()
 
-            if m_c.contains('LUL'):
+            if 'LUL' in m_c:
                 lul_amount += 1
                 if lul_amount % 5 == 0:
                     print('Amount of LULs: {}'.format(response_amount))
