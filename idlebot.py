@@ -27,7 +27,7 @@ def main():
             if 'LUL' in m_c:
                 lul_amount += 1
                 if lul_amount % 5 == 0:
-                    print('Amount of LULs: {}'.format(response_amount))
+                    print('Amount of LULs: {}'.format(lul_amount))
                     print('Last LUL by {}'.format(username))
                     print('-------------------')
 
