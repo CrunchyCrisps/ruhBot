@@ -13,7 +13,7 @@ def main():
     s.send("JOIN #{}\r\n".format(config.CHANNEL).encode('utf-8'))
 
     chat_message = re.compile(r'^:\w+!\w+@\w+.tmi\.twitch\.tv PRIVMSG #\w+ :')
-    lul_amount = 0
+    psama_amount = 0
 
     while True:
         response = s.recv(1024).decode('utf-8')
@@ -25,10 +25,10 @@ def main():
             m_c = message.strip()
 
             if 'LUL' in m_c:
-                lul_amount += 1
-                if lul_amount % 5 == 0:
-                    print('Amount of LULs: {}'.format(lul_amount))
-                    print('Last LUL by {}'.format(username))
+                psama_amount += 1
+                if psama_amount % 5 == 0:
+                    print('Amount of Psamas: {}'.format(psama_amount))
+                    print('Last Psama by {}'.format(username))
                     print('-------------------')
 
 if __name__ == '__main__':
